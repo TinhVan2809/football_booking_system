@@ -27,6 +27,8 @@ function Login() {
                 
                 if (data.user.role === "admin") {
                     navigate("/admin"); //[DASHBROAD] Trang pages/admin/Dashbroad.jsx
+                } else if(data.user.role === "branch_owner") {
+                    navigate("/branch_owner"); //[DASHBROAD] Trang pages/branch_owner/Dashbroad.jsx
                 } else {
                     navigate("/"); //[HOME] Trang pages/customer/Home.jsx 
                 }

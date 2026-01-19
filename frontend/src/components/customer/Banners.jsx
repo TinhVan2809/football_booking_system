@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import '../../styles/Banners.css';
+import "../../styles/Banners.css";
 
 function Banners() {
   return (
@@ -30,10 +30,18 @@ function Banners() {
           </SwiperSlide>
         </Swiper>
         <div className="banner--content__main">
-          <div className="text-white w-full justify-center items-center">
-            <h1 className="">FOOTBALL BOOKING SYSTEM</h1>
+          <div className="text-white w-full flex justify-center items-center flex-col">
+            <h1 className="flex justify-center items-center">FOOTBALL BOOK <img src="../../../assets/pngtree-gold-soccer-cup-with-ball-and-flames-png-image_14315011.png" className="w-10"/> NG SYSTEM</h1>
+            <div className="flex justify-center items-center">
+              <span className="text-sm">Hệ thống quản lý</span>
+              <img
+                src="../../../assets/HASEBOOKING-Photoroom.png"
+                className="w-6.5"
+              />
+              <span className="text-sm">Đặt lịch dịch vụ sân bóng đa chi nhánh</span>
+            </div>
           </div>
-          <div className="banner--content__input flex mt-40 w-full justify-center items-center">
+          <div className="banner--content__input flex mt-40 rounded-2xl justify-center items-center">
             <div className="flex gap-4 bg-stone-100 p-2 rounded-xl ">
               <label htmlFor="">
                 <input
@@ -49,7 +57,9 @@ function Banners() {
                   className="w-90 h-11 px-3 outline-0 border border-gray-300 rounded-2xl"
                 />
               </label>
-              <button className="px-4 py-2 bg-[#221f23] text-white rounded-2xl cursor-pointer duration-100 hover:bg-green-800">Tìm ngay</button>
+              <button className="px-4 py-2 bg-[#221f23] text-white rounded-2xl cursor-pointer duration-100 hover:bg-green-800">
+                Tìm ngay
+              </button>
             </div>
           </div>
         </div>

@@ -21,6 +21,7 @@ function Sidebar() {
                             <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiMegaphoneLine /> Thông báo</li>
                             <li className="flex text-md items-center gap-2.5 cursor-pointer" onClick={() => navigate('/fields')}><RiEditBoxLine /> Sân bóng</li>
                             <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiUserLine /> Customers</li>
+                            <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiUserLine /> Branch Owner</li>
                             <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiUser2Line /> Admin</li>
                             <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiSettings2Line /> Cài đặt</li>
                             <li className="flex text-md items-center gap-2.5 cursor-pointer mt-15"  onClick={logout} ><RiLogoutBoxLine color="red"/> Đăng xuất</li>

@@ -9,7 +9,8 @@
             $conn = $db->getConnection();
             $stmt = $conn->prepare("SELECT f.field_name, f.thumbnail, b.branch_name, b.address, b.open_time, b.close_time 
                                             FROM fields f  
-                                            JOIN branches b ON f.branch_id = b.branch_id LIMIT :limit OFFSET :offset");
+                                            JOIN branches b ON f.branch_id = b.branch_id 
+                                            LIMIT :limit OFFSET :offset");
             $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
             $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
             $stmt->execute();

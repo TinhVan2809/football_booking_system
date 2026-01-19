@@ -13,10 +13,10 @@
     align-items: center;
     text-align: center;
     flex-direction: column;
+    font-family: "Open Sans", sans-serif;
 }
 
 .banner--content__main h1 {
-    font-family: "Open Sans", sans-serif;
     font-size: 3rem;
     font-weight: 800;
 }

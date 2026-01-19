@@ -5,14 +5,21 @@ import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import { UserProvider } from "../context/UserContext";
 
-// CUSTOMER PAGES/LAYOUTD/COMPOENTS...
+
+//------------------ PAGES/LAYOUTD/COMPOENTS...-----------------------//
+// [USTOMER]
 import Home from "../pages/customer/Home";
 
-// ADMIN PAGES/LAYOUTD/COMPOENTS...
+// [ADMIN] 
 import Dashbroad from "../pages/admin/Dashbroad";
 import Fields from "../pages/admin/Fields";
 
-const AppLayout = () => (
+// [BRANCH OWNER] 
+import DashbroadBranch from "../pages/branch_owner/Dashbroad";
+
+//------------------ PAGES/LAYOUTD/COMPOENTS...-----------------------//
+
+ const AppLayout = () => (
   <UserProvider>
     <Outlet />
   </UserProvider>
@@ -50,6 +57,14 @@ export const router = createBrowserRouter([
         path: "/fields",
         element: <Fields />
       },
+      {
+        path: "/branch_owner",
+        element: (
+          <ProtectedRoute role="branch_owner">
+            <DashbroadBranch />
+          </ProtectedRoute>
+        ),
+      }
     ],
   },
 ]);
