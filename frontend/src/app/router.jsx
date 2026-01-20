@@ -19,7 +19,7 @@ import DashbroadBranch from "../pages/branch_owner/Dashbroad";
 
 //------------------ PAGES/LAYOUTD/COMPOENTS...-----------------------//
 
- const AppLayout = () => (
+ const AppLayout = () => ( //eslint-disable-line
   <UserProvider>
     <Outlet />
   </UserProvider>
