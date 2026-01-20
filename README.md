@@ -3,7 +3,7 @@
 ```
 cd backend-node
 node server.js
-``
+```
 
 ```
 cd frontend
