@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 function FieldDetail() {
 
@@ -9,6 +9,8 @@ function FieldDetail() {
     const [detail, setDetail] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setloading] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchFieldDetail= async() => {
@@ -59,6 +61,7 @@ function FieldDetail() {
             <div className="bg-white shadow-md rounded-lg p-6 mb-8">
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">{commonInfo.field_name}</h1>
                 <p className="text-xl text-gray-600 mb-1">{commonInfo.branch_name}</p>
+                <p onClick={() => navigate(`/branchDetail/${commonInfo.branch_id}`)}>Xem chi nhánh</p>
                 <p className="text-gray-500 mb-4">{commonInfo.address}</p>
                 <span className={`px-3 py-1 rounded-full text-sm font-semibold ${commonInfo.field_status === 'available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                     {commonInfo.field_status === 'available' ? 'Đang hoạt động/có sẵn' : 'Tạm ngưng'}

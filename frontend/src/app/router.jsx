@@ -10,6 +10,7 @@ import { UserProvider } from "../context/UserContext";
 import Home from "../pages/customer/Home";
 import FieldDetail from "../pages/customer/FieldDetail";
 import CustomerLayout from "../layouts/customer/CustomerLayout";
+import BranchDetail from "../pages/customer/BranchDetail";
 
 // [ADMIN]
 import Dashbroad from "../pages/admin/Dashbroad";
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
            element: <Home />, // Route mặc định cho trang customer
          },
          { path: "detail/:field_id", element: <FieldDetail /> },
+         { path: "branchDetail/:branch_id", element: <BranchDetail /> },
         ],
       },
       {

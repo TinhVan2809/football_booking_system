@@ -195,6 +195,31 @@ try {
             }
             break;
 
+            case 'getById':
+                $branch_id = filter_input(INPUT_POST, 'branch_id', FILTER_VALIDATE_INT) ?: filter_input(INPUT_GET, 'branch_id', FILTER_VALIDATE_INT);
+                $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options' => ['default' => 1, 'min_range' => 1]]) ?: 1;
+                $limit = filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT, ['options' => ['default' => 20, 'min_range' => 1]]) ?: 20;
+                
+                if(!$branch_id) {
+                    sendJson(['success' => false, 'message' => 'branch_id required'], 400);
+                }
+
+                $offset = ($page - 1) * $limit;
+                $totalItems = $branches->countFieldsByBranch($branch_id);
+                $totalPages = ceil($totalItems / $limit);
+                $data = $branches->getBranchById($branch_id, $limit, $offset);
+
+                sendJson([
+                    'success' =>true,
+                    'data' => $data,
+                    'total_items' => $totalItems,
+                    'total_pages' => $totalPages,
+                    'current_page' => $page,
+                    'limit' => $limit
+                ]);
+
+                break;
+
         default:
             http_response_code(400);
             echo json_encode(['success' => false, 'message' => 'Invalid action']);

@@ -4,7 +4,7 @@ require_once '../connection.php';
 
 class Branch
 {
-    public function getBranchById(int $branch_id)
+    public function getBranchById(int $branch_id, int $limit =10, $offset = 0)
     {
         if (empty($branch_id)) {
             return false;
@@ -12,29 +12,67 @@ class Branch
         try {
             $db = Database::getInstance();
             $connection = $db->getConnection();
-            $sql = "SELECT
-                        f.field_id,
-                        f.field_name,
-                        f.status,
-
-                        JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'field_type_id', ft.field_type_id,
-                                'type_name', ft.type_name,
-                                'players', ft.players,
-                                'price_per_hour', fft.price_per_hour
-                            )
-                        ) AS field_types
+            
+            // 1. Fetch fields with pagination
+            $sql = "SELECT f.field_id, f.field_name, f.status
                     FROM fields f
-                    JOIN field_field_types fft ON fft.field_id = f.field_id
-                    JOIN field_types ft ON ft.field_type_id = fft.field_type_id
                     WHERE f.branch_id = :branch_id
-                    GROUP BY f.field_id, f.field_name, f.status 
                     LIMIT :limit OFFSET :offset";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(':branch_id', $branch_id, PDO::PARAM_INT);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_OBJ);
+            $fields = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (empty($fields)) {
+                return [];
+            }
+
+            // 2. Fetch field types for these fields
+            $fieldIds = array_column($fields, 'field_id');
+            $placeholders = implode(',', array_fill(0, count($fieldIds), '?'));
+            
+            $sqlTypes = "SELECT 
+                            fft.field_id,
+                            ft.field_type_id,
+                            ft.type_name,
+                            ft.players,
+                            fft.price_per_hour
+                        FROM field_field_types fft
+                        JOIN field_types ft ON ft.field_type_id = fft.field_type_id
+                        WHERE fft.field_id IN ($placeholders)";
+            
+            $stmtTypes = $connection->prepare($sqlTypes);
+            $stmtTypes->execute($fieldIds);
+            $types = $stmtTypes->fetchAll(PDO::FETCH_ASSOC);
+
+            // 3. Aggregate types into fields
+            $fieldMap = [];
+            foreach ($fields as $field) {
+                $field['field_types'] = [];
+                $fieldMap[$field['field_id']] = $field;
+            }
+
+            foreach ($types as $type) {
+                $fId = $type['field_id'];
+                if (isset($fieldMap[$fId])) {
+                    $fieldMap[$fId]['field_types'][] = [
+                        'field_type_id' => $type['field_type_id'],
+                        'type_name' => $type['type_name'],
+                        'players' => $type['players'],
+                        'price_per_hour' => $type['price_per_hour']
+                    ];
+                }
+            }
+
+            // Convert to array of objects
+            $result = [];
+            foreach ($fieldMap as $field) {
+                $result[] = (object)$field;
+            }
+
+            return $result;
         } catch (PDOException $e) {
             error_log("Error getting branches " . $e->getMessage());
             return [];
@@ -73,6 +111,25 @@ class Branch
         } catch (PDOException $e) {
             error_log("Error counting branches " . $e->getMessage());
             return [];
+        }
+    }
+
+    public function countFieldsByBranch(int $branch_id)
+    {
+        try {
+            $db = Database::getInstance();
+            $connection = $db->getConnection();
+
+            $sql = "SELECT COUNT(field_id) as total FROM fields WHERE branch_id = :branch_id";
+            $stmt = $connection->prepare($sql);
+            $stmt->bindValue(':branch_id', $branch_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return isset($row['total']) ? (int)$row['total'] : 0;
+        } catch (PDOException $e) {
+            error_log("Error counting fields " . $e->getMessage());
+            return 0;
         }
     }
 
