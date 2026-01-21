@@ -3,18 +3,18 @@ import { RiNotification3Line } from "@remixicon/react";
 import { useContext } from "react";
 import UserContext from "../../context/UserContext";
 
-function Header() {
+function HeaderAdmin() {
   const { user } = useContext(UserContext);
 
   return (
     <>
       <header className="header-container w-full flex sticky top-0 px-10 py-2 bg-white justify-between items-center">
-        <div className="flex justify-center items-end">
+        <div className="flex justify-center items-center">
           <img
-            src="../../../assets/Screenshot 2026-01-18 022408-Photoroom.png"
-            title="HASEKi"
+            src="../../../assets/HASEBOOKING-Photoroom.png"
             className="w-10"
           />
+          <p className="text-[20px] font-bold">HASEBOOKING</p>
         </div>
         <div className="">
           <input type="text" 
@@ -42,4 +42,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default HeaderAdmin;

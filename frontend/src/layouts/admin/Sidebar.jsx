@@ -8,23 +8,23 @@ function Sidebar() {
     const navigate = useNavigate();
     return (
         <>
-            <div className="sidebar-container fixed left-0  h-screen w-fit flex flex-col items-center py-5 gap-11">
-                <div className="flex justify-center items-center gap-2">
+            <div className="sidebar-container fixed left-0 top-0 h-screen w-60 bg-white shadow-md flex flex-col items-center pt-24 pb-5 gap-11">
+                <div className="flex justify-center items-center gap-2 px-4">
                     <img src="../../../assets/491510680_18002017331672055_5308144228321480053_n.jpg" className="w-10 rounded-[50%] object-cover" alt="Avatar"/>
                     <span className="text-gray-500 text-sm">{user?.full_name}</span>
                 </div>
                 <div className="px-15">
                     <nav>
                         <ul className="flex flex-col gap-7.5">
-                            <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiBookmarkLine /> Lịch đặt</li>
+                            <li className="flex text-md items-center gap-2.5 cursor-pointer" onClick={() => navigate('/admin')}><RiBookmarkLine /> Bảng điều khiển</li>
                             <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiColorFilterAiLine /> Dịch vụ</li>
                             <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiMegaphoneLine /> Thông báo</li>
-                            <li className="flex text-md items-center gap-2.5 cursor-pointer" onClick={() => navigate('/fields')}><RiEditBoxLine /> Sân bóng</li>
-                            <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiUserLine /> Customers</li>
-                            <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiUserLine /> Branch Owner</li>
+                            <li className="flex text-md items-center gap-2.5 cursor-pointer" onClick={() => navigate('/admin/fields')}><RiEditBoxLine /> Sân bóng</li>
+                            <li className="flex text-md items-center gap-2.5 cursor-pointer" onClick={() => navigate('/admin/users')}><RiUserLine /> Khách hàng</li>
+                            <li className="flex text-md items-center gap-2.5 cursor-pointer" onClick={() => navigate('/admin/branches')}><RiUserLine/> Chủ sân</li>
                             <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiUser2Line /> Admin</li>
                             <li className="flex text-md items-center gap-2.5 cursor-pointer"><RiSettings2Line /> Cài đặt</li>
-                            <li className="flex text-md items-center gap-2.5 cursor-pointer mt-15"  onClick={logout} ><RiLogoutBoxLine color="red"/> Đăng xuất</li>
+                            <li className="flex text-md items-center gap-2.5 cursor-pointer"  onClick={logout} ><RiLogoutBoxLine color="red"/> Đăng xuất</li>
                         </ul>
                     </nav>
                 </div>

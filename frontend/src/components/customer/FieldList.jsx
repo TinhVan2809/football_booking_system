@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { RiPhoneLine, RiTimer2Line, RiArrowRightSLine, RiArrowLeftSLine } from "@remixicon/react";
-
+import { RiPhoneLine, RiTimer2Line, RiArrowRightSLine, RiArrowLeftSLine, RiRoadMapFill } from "@remixicon/react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/Fields.css";
 
 function FieldList() {
+  const navigate = useNavigate();
   const img =
     "http://localhost/football-booking-system/backend-php/uploads/fields_img";
   const API_BASE =
@@ -93,10 +94,11 @@ function FieldList() {
                     <p className="line-clamp-3 text-sm">{f.address}</p>
                   </div>
                   <div className="flex justify-end items-center gap-3 mt-3">
+                    <button><RiRoadMapFill /></button>
                     <button className="px-3 py-1 rounded-3xl flex gap-1 border border-orange-400 justify-center items-center text-orange-400 cursor-pointer duration-100 hover:bg-white hover:border-white">
                       <RiPhoneLine size={19} /> Liên hệ
                     </button>
-                    <button className="px-3 py-1 rounded-3xl bg-orange-600 cursor-pointer duration-100 hover:bg-orange-700">
+                    <button className="px-3 py-1 rounded-3xl bg-orange-600 cursor-pointer duration-100 hover:bg-orange-700" onClick={() => navigate(`/detail/${f.field_id}`)}>
                       Đặt lịch
                     </button>
                   </div>

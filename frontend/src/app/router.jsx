@@ -5,21 +5,25 @@ import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import { UserProvider } from "../context/UserContext";
 
-
 //------------------ PAGES/LAYOUTD/COMPOENTS...-----------------------//
 // [USTOMER]
 import Home from "../pages/customer/Home";
+import FieldDetail from "../pages/customer/FieldDetail";
+import CustomerLayout from "../layouts/customer/CustomerLayout";
 
-// [ADMIN] 
+// [ADMIN]
 import Dashbroad from "../pages/admin/Dashbroad";
 import Fields from "../pages/admin/Fields";
+import Users from "../pages/admin/Users";
+import AdminLayout from "../layouts/admin/AdminLayout";
+import Branches from "../pages/admin/Branches";
 
-// [BRANCH OWNER] 
+// [BRANCH OWNER]
 import DashbroadBranch from "../pages/branch_owner/Dashbroad";
 
 //------------------ PAGES/LAYOUTD/COMPOENTS...-----------------------//
 
- const AppLayout = () => ( //eslint-disable-line
+const AppLayout = () => (   //eslint-disable-line
   <UserProvider>
     <Outlet />
   </UserProvider>
@@ -31,31 +35,42 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: (
-          // <ProtectedRoute role="customer">
-            <Home />
-          // </ProtectedRoute>
+        element: (        
+          <CustomerLayout />       
         ),
+         children: [
+         {
+           index: true,
+           element: <Home />, // Route mặc định cho trang customer
+         },
+         { path: "detail/:field_id", element: <FieldDetail /> },
+        ],
       },
       {
-        path: '/login',
+        path: "/login",
         element: <Login />,
       },
       {
-        path: '/register',
+        path: "/register",
         element: <Register />,
       },
       {
-        path: "/admin",
+        path: "/admin", // Route cha cho khu vực admin
         element: (
           <ProtectedRoute role="admin">
-            <Dashbroad />
+            <AdminLayout />
           </ProtectedRoute>
         ),
-      },
-      {
-        path: "/fields",
-        element: <Fields />
+        children: [
+          {
+            index: true,
+            element: <Dashbroad />,  // Route mặc định cho /admin
+          },
+          { path: "fields", element: <Fields /> },  // route sân bóng
+          { path: "users", element: <Users /> }, // route user
+          { path: "branches", element: <Branches /> },  // router chủ sân
+
+        ],
       },
       {
         path: "/branch_owner",
@@ -64,7 +79,7 @@ export const router = createBrowserRouter([
             <DashbroadBranch />
           </ProtectedRoute>
         ),
-      }
+      },
     ],
   },
 ]);

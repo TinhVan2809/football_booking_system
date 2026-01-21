@@ -1,11 +1,8 @@
-import Header from "../../layouts/admin/Header";
-import Sidebar from "../../layouts/admin/Sidebar";
-
 function Dashbroad() {
     return (
         <>
-          <Header />
-          <Sidebar />
+            <h1 className="text-3xl font-bold">Bảng điều khiển</h1>
+            <p className="mt-4">Chào mừng đến với trang quản trị!</p>
         </>
     );
 }
