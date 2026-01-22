@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
-//-----Swiper-----------------------------------------------------------
+//--------------------------Swiper------------------------------------
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-//-----Swiper------------------------------------------------------------
+
+//--------------------------Swiper-------------------------------------
 
 import { RiMapPinFill } from '@remixicon/react';
 

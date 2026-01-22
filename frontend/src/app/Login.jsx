@@ -8,13 +8,16 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import {RiPhoneLine} from '@remixicon/react';
+import {RiPhoneLine, RiEyeLine, RiEyeOffLine} from '@remixicon/react';
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -79,14 +82,15 @@ function Login() {
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </label>
-              <label htmlFor="">
+              <label htmlFor="" className="relative flex items-center">
                 <input
-                  type="password"
+                  type={showPassword ? 'password' : 'text'}
                   placeholder="Password"
                   className="border-b-2 w-full px-1 py-2  outline-0"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                {showPassword ? <RiEyeOffLine size={20} className="absolute right-0 cursor-pointer" onClick={() => setShowPassword(!showPassword)}/> : <RiEyeLine size={20} className="absolute right-0 cursor-pointer" onClick={() => setShowPassword(!showPassword)} />}
               </label>
               <div className="w-full flex items-center justify-between ">
                 <label htmlFor="" className="flex items-center">
