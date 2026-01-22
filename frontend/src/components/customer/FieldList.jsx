@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { RiPhoneLine, RiTimer2Line, RiArrowRightSLine, RiArrowLeftSLine, RiRoadMapFill } from "@remixicon/react";
+import { RiPhoneLine, RiTimer2Line, RiArrowRightSLine, RiArrowLeftSLine, RiRoadMapFill, RiPokerHeartsLine, RiMoreLine } from "@remixicon/react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Fields.css";
 
@@ -68,7 +68,18 @@ function FieldList() {
         <main className="w-full mt-10">
           <div className="grid grid-cols-3 gap-y-3 gap-x-2 w-full px-12 justify-center items-center">
             {fields.map((f) => (
-              <div className="field--cart__container h-80 w-full relative rounded-2xl overflow-hidden group cursor-pointer" key={f.field_id}>
+              <div
+                className="field--cart__container h-80 w-full relative rounded-2xl overflow-hidden group cursor-pointer"
+                key={f.field_id}
+              >
+                <div className="absolute z-20 right-0 mt-3 mr-3 flex gap-3">
+                  <div className=" p-1 bg-white rounded-full">
+                    <RiPokerHeartsLine className="text-stone-700" />
+                  </div>
+                  <div className=" p-1 bg-white rounded-full hover:bg-gray-200 duration-150">
+                    <RiMoreLine className="" />
+                  </div>
+                </div>
                 <img
                   src={
                     f.thumbnail
@@ -94,11 +105,16 @@ function FieldList() {
                     <p className="line-clamp-3 text-sm">{f.address}</p>
                   </div>
                   <div className="flex justify-end items-center gap-3 mt-3">
-                    <button><RiRoadMapFill /></button>
+                    <button>
+                      <RiRoadMapFill />
+                    </button>
                     <button className="px-3 py-1 rounded-3xl flex gap-1 border border-orange-400 justify-center items-center text-orange-400 cursor-pointer duration-100 hover:bg-white hover:border-white">
                       <RiPhoneLine size={19} /> Liên hệ
                     </button>
-                    <button className="px-3 py-1 rounded-3xl bg-orange-600 cursor-pointer duration-100 hover:bg-orange-700" onClick={() => navigate(`/detail/${f.field_id}`)}>
+                    <button
+                      className="px-3 py-1 rounded-3xl bg-orange-600 cursor-pointer duration-100 hover:bg-orange-700"
+                      onClick={() => navigate(`/detail/${f.field_id}`)}
+                    >
                       Đặt lịch
                     </button>
                   </div>
@@ -115,7 +131,7 @@ function FieldList() {
               <RiArrowLeftSLine />
             </button>
             <span>
-             {currentPage} / {totalPages}
+              {currentPage} / {totalPages}
             </span>
             <button
               onClick={handleNextPage}

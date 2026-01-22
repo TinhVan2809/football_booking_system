@@ -24,3 +24,12 @@
 .banner--content__main input::placeholder {
     font-size: 14px;
 }
+
+
+.fielddetail__content--info {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.fielddetail__content--card{
+    background-color: rgba(0, 0, 0, 0.488);
+}

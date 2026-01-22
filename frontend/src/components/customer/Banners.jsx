@@ -1,3 +1,4 @@
+import {RiMapPinRangeFill} from '@remixicon/react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -42,7 +43,10 @@ function Banners() {
             </div>
           </div>
           <div className="banner--content__input flex mt-40 rounded-2xl justify-center items-center">
-            <div className="flex gap-4 bg-stone-100 p-2 rounded-xl ">
+            <div className="flex items-center gap-4 bg-stone-100 p-2 rounded-xl ">
+              <div className="">
+                <RiMapPinRangeFill className='text-green-900 cursor-pointer'/>
+              </div>
               <label htmlFor="">
                 <input
                   type="text"
