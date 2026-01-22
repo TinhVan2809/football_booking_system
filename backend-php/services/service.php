@@ -31,7 +31,7 @@
                     // chỉ đếm một column không đếm hết tránh tốn hiệu năng
                     $sql = "SELECT COUNT(service_id) AS total 
                             FROM services 
-                            WHERE branch_id = :branch";
+                            WHERE branch_id = :branch_id";
                     $stmt = $connection->prepare($sql);
                     $stmt->bindValue(':branch_id', $branch_id, PDO::PARAM_INT); // Phải là kiểu int số nguyên.
                     

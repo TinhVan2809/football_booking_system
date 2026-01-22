@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 //--------------------------Swiper------------------------------------
 
@@ -16,14 +16,29 @@ import { RiMapPinFill, RiMore2Fill } from "@remixicon/react";
 function FieldDetail() {
   const { field_id } = useParams();
 
+  // API detail.php
   const API_BASE =
     "http://localhost/football-booking-system/backend-php/details/api.php";
+
+  //API service.php
+  const API_SERVICE = "http://localhost/football-booking-system/backend-php/services/api.php";
+
+  const LIMIT = 25;
+  
   const [detail, setDetail] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setloading] = useState(false);
 
+  //* Services dịch vụ
+  const [services, setServices] = useState([]);
+
+  //* Navigate chuyển trang
   const navigate = useNavigate();
 
+  // Lấy thông tin chung từ phần tử đầu tiên (nếu có) để dùng cho useEffect phía dưới
+  const commonInfo = detail && detail.length > 0 ? detail[0] : null;
+
+//TODO: FETCH chi tiết sân bóng 
   useEffect(() => {
     const fetchFieldDetail = async () => {
       setloading(true);
@@ -48,13 +63,36 @@ function FieldDetail() {
     fetchFieldDetail();
   }, [field_id]);
 
+  //TODO: FETCH danh sách các dịch vụ có trong chi nhánh (branch_id) này.
+  useEffect(() => {
+    const fetchServicesBybranch = async(page = 1) => {
+      try{
+        const res = await fetch(`${API_SERVICE}?action=get&branch_id=${commonInfo?.branch_id}&limit=${LIMIT}&page=${page}`);
+        if(!res.ok) {
+          throw new Error("ERROR HTTP: ", res.status);
+        }
+
+        const data = await res.json();
+        
+        if(data.success) {
+          setServices(data.data);
+        }
+
+      } catch(err) {
+        setError(err.message);
+        console.error("Error fetching services by branch ", err);
+      }
+    }
+    fetchServicesBybranch();
+  },[commonInfo?.branch_id]);
+
   if (loading)
     return <div className="text-center mt-10">Đang tải dữ liệu...</div>;
   if (error)
     return <div className="text-center mt-10 text-red-500">Lỗi: {error}</div>;
 
   // Kiểm tra nếu không có dữ liệu
-  if (!detail || detail.length === 0) {
+  if (!commonInfo) {
     return (
       <>
         <div className="text-center mt-10">
@@ -63,9 +101,6 @@ function FieldDetail() {
       </>
     );
   }
-
-  // Lấy thông tin chung từ phần tử đầu tiên (vì field_name, address... giống nhau cho mọi loại sân của cùng 1 field_id)
-  const commonInfo = detail[0];
 
   return (
     <>
@@ -153,7 +188,11 @@ function FieldDetail() {
                 <RiMore2Fill />
               </div>
               <img
-                src={item.thumbnail ? `../../../assets/${item.thumbnail}` : '../../../assets/pexels-rick98-10751047.jpg'}
+                src={
+                  item.thumbnail
+                    ? `../../../assets/${item.thumbnail}`
+                    : "../../../assets/pexels-rick98-10751047.jpg"
+                }
                 className="w-full h-full object-cover rounded-3xl"
               />
               <div className="field__card--content absolute bottom-0 p-5 z-10 w-full">
@@ -169,7 +208,9 @@ function FieldDetail() {
                     / giờ
                   </span>
                 </p>
-                <span className="text-gray-300 text-sm">{item.description}</span>
+                <span className="text-gray-300 text-sm">
+                  {item.description}
+                </span>
                 <div className="field__card--players flex gap-3 mt-5 mb-5 items-center">
                   <p className="text-white px-2 py-0.5">
                     Players{" "}
@@ -217,7 +258,6 @@ function FieldDetail() {
       <div className="flex mt-10">
         <div className="">
           <p>Các dịch vụ đi kèm của chúng tôi.</p>
-          
         </div>
       </div>
     </>
