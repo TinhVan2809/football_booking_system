@@ -55,10 +55,6 @@ function FieldList() {
     }
   };
 
-  if (loading) {
-    return <div>Loaing ...</div>;
-  }
-
   return (
     <>
       <section className="w-full mt-20">
@@ -86,7 +82,7 @@ function FieldList() {
                       ? `${img}/${f.thumbnail}`
                       : "pexels-pixabay-47730.jpg"
                   }
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 will-change-transform"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent"></div>
                 <div className="absolute z-10 bottom-0 w-full p-5 text-white">

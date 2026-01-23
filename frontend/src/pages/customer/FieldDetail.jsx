@@ -11,7 +11,12 @@ import "swiper/css/pagination";
 
 //--------------------------Swiper-------------------------------------
 
-import { RiMapPinFill, RiMore2Fill } from "@remixicon/react";
+import {
+  RiMapPinFill,
+  RiMore2Fill,
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+} from "@remixicon/react";
 
 function FieldDetail() {
   const { field_id } = useParams();
@@ -21,13 +26,17 @@ function FieldDetail() {
     "http://localhost/football-booking-system/backend-php/details/api.php";
 
   //API service.php
-  const API_SERVICE = "http://localhost/football-booking-system/backend-php/services/api.php";
+  const API_SERVICE =
+    "http://localhost/football-booking-system/backend-php/services/api.php";
 
-  const LIMIT = 3;
-  
+  const LIMIT = 6;
+  const LIMIT_SERVICES = 10;
+
   const [detail, setDetail] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setloading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   //* Services dịch vụ
   const [services, setServices] = useState([]);
@@ -38,13 +47,15 @@ function FieldDetail() {
   // Lấy thông tin chung từ phần tử đầu tiên (nếu có) để dùng cho useEffect phía dưới
   const commonInfo = detail && detail.length > 0 ? detail[0] : null;
 
-//TODO: FETCH chi tiết sân bóng 
+  //TODO: FETCH chi tiết sân bóng
   useEffect(() => {
-    const fetchFieldDetail = async () => {
+    const fetchFieldDetail = async (page = 1) => {
       setloading(true);
 
       try {
-        const res = await fetch(`${API_BASE}?action=get&field_id=${field_id}`);
+        const res = await fetch(
+          `${API_BASE}?action=get&field_id=${field_id}&limit=${LIMIT}&page=${page}`,
+        );
         if (!res.ok) {
           throw new Error("ERROR HTTP ", res.status);
         }
@@ -53,6 +64,7 @@ function FieldDetail() {
 
         if (data.success) {
           setDetail(data.data);
+          setTotalPages(data.total_pages || 1);
           setloading(false);
         }
       } catch (err) {
@@ -60,36 +72,39 @@ function FieldDetail() {
         console.error("Error fetching field error ", err);
       }
     };
-    fetchFieldDetail();
-  }, [field_id]);
+    fetchFieldDetail(currentPage);
+  }, [field_id, currentPage]);
 
   //TODO: FETCH danh sách các dịch vụ có trong chi nhánh (branch_id) này.
   useEffect(() => {
-    const fetchServicesBybranch = async(page = 1) => {
-      try{
-        const res = await fetch(`${API_SERVICE}?action=get&branch_id=${commonInfo?.branch_id}&limit=${LIMIT}&page=${page}`);
-        if(!res.ok) {
+    const fetchServicesBybranch = async (page = 1) => {
+      try {
+        const res = await fetch(
+          `${API_SERVICE}?action=get&branch_id=${commonInfo?.branch_id}&limit=${LIMIT_SERVICES}&page=${page}`,
+        );
+        if (!res.ok) {
           throw new Error("ERROR HTTP: ", res.status);
         }
 
         const data = await res.json();
-        
-        if(data.success) {
+
+        if (data.success) {
           setServices(data.data);
         }
-
-      } catch(err) {
+      } catch (err) {
         setError(err.message);
         console.error("Error fetching services by branch ", err);
       }
-    }
+    };
     fetchServicesBybranch();
-  },[commonInfo?.branch_id]);
+  }, [commonInfo?.branch_id]);
 
-  if (loading)
-    return <div className="text-center mt-10">Đang tải dữ liệu...</div>;
   if (error)
     return <div className="text-center mt-10 text-red-500">Lỗi: {error}</div>;
+
+  if (loading) {
+    return <div>Loading.....</div>; // thêm ui loading ở đây
+  }
 
   // Kiểm tra nếu không có dữ liệu
   if (!commonInfo) {
@@ -102,6 +117,19 @@ function FieldDetail() {
     );
   }
 
+  // Xử lý chuyển trang
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <>
       <section className="container mx-auto px-4 w-full h-full">
@@ -113,26 +141,34 @@ function FieldDetail() {
               slidesPerView={1}
               loop={true}
               autoplay={{ delay: 4500 }}
+              lazy={true}
+              preloadImages={false}
             >
               <SwiperSlide>
                 <img
+                  rel="preload"
+                  as="image"
                   src="../../../assets/pexels-2morrowdrm-12460951.jpg"
                   alt=""
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover will-change-transform"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
+                  rel="preload"
+                  as="image"
                   src="../../../assets/pexels-andreb1612-1615842.jpg"
                   alt=""
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover will-change-transform"
                 />
               </SwiperSlide>
               <SwiperSlide>
                 <img
+                  rel="preload"
+                  as="image"
                   src="../../../assets/pexels-julien-goettelmann-44396125-30326893.jpg"
                   alt=""
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover will-change-transform"
                 />
               </SwiperSlide>
             </Swiper>
@@ -188,12 +224,14 @@ function FieldDetail() {
                 <RiMore2Fill />
               </div>
               <img
+                rel="preload"
+                as="image"
                 src={
                   item.thumbnail
                     ? `../../../assets/${item.thumbnail}`
                     : "../../../assets/pexels-rick98-10751047.jpg"
                 }
-                className="w-full h-full object-cover rounded-3xl"
+                className="w-full h-full object-cover rounded-3xl will-change-transform"
               />
               <div className="field__card--content absolute bottom-0 p-5 z-10 w-full">
                 <span className="text-white text-2xl font-[550]">
@@ -252,13 +290,32 @@ function FieldDetail() {
             </div>
           ))}
         </div>
+        <div className="w-full flex justify-center items-center gap-4 mt-6">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-200 rounded cursor-pointer disabled:opacity-50"
+          >
+            <RiArrowLeftSLine />
+          </button>
+          <span>
+            {currentPage} / {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-gray-200 rounded cursor-pointer disabled:opacity-50"
+          >
+            <RiArrowRightSLine />
+          </button>
+        </div>
       </section>
 
       {/* Danh sách các dịch vụ của chi nhánh này */}
       <div className="flex mt-10">
         <div className="">
           <p>Các dịch vụ đi kèm của chúng tôi.</p>
-          {services.map(s => (
+          {services.map((s) => (
             <div className="">
               <p>{s.service_name}</p>
               <p>{s.price}</p>

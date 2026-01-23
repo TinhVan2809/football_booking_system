@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
+    const [user, setUser] = useState(() => {
+      const data = localStorage.getItem("user");
+      return data ? JSON.parse(data) : null;
+    });
+
     const navigate = useNavigate();
 
     const logout = async () => {

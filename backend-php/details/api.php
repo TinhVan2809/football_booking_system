@@ -60,18 +60,25 @@ try {
 
     switch ($action) {
         case 'get':
-
+            $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options' => ['default' => 1, 'min_range' => 1]]) ?: 1;
+            $limit = filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT, ['options' => ['default' => 6, 'min_range' => 1]]) ?: 6;
             $field_id = filter_input(INPUT_POST, 'field_id', FILTER_VALIDATE_INT) ?: filter_input(INPUT_GET, 'field_id', FILTER_VALIDATE_INT);
-            
+
             if (!$field_id) {
                 sendJson(['success' => false, 'message' => 'field_id required'], 400);
             }
-
-            $data = $detail->getFieldDetail($field_id);
+            $offset = ($page - 1) * $limit;
+            $totalItems = $detail->countFields($field_id);
+            $totalPages = ceil($totalItems / $limit);
+            $data = $detail->getFieldDetail($field_id, $limit, $offset);
 
             sendJson([
                 'success' => true,
                 'data' => $data,
+                'total_items' => $totalItems,
+                'total_pages' => $totalPages,
+                'current_page' => $page,
+                'limit' => $limit
             ]);
             break;
 

@@ -14,7 +14,7 @@ function Header() {
   return (
     <>
       <header className="w-full sticky top-0 flex justify-between  md:px-10 lg:px-30 py-2 z-300 bg-white">
-        <div className="flex gap-1 lg:gap-3 justify-center items-center">
+        <div className="flex gap-1 lg:gap-3 justify-center items-center cursor-pointer" onClick={() => navigate('/')}>
           <img
             src="../../../assets/HASEBOOKING-Photoroom.png"
             alt="logo"
