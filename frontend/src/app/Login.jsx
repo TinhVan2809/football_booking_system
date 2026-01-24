@@ -99,7 +99,7 @@ function Login() {
                   ""
                 )}
               </label>
-              <label htmlFor="" className="relative flex justify-center items-center flex-col">
+              <label htmlFor="" className="relative flex justify-center items-start flex-col">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"

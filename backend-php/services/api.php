@@ -58,9 +58,9 @@ try {
 
     $services = new Service();
 
-    switch($action) {
-case 'get': 
-           
+    switch ($action) {
+        case 'get':
+
             $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options' => ['default' => 1, 'min_range' => 1]]) ?: 1;
             $limit = filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT, ['options' => ['default' => 25, 'min_range' => 1]]) ?: 25;
             $branch_id = filter_input(INPUT_POST, 'branch_id', FILTER_VALIDATE_INT) ?: filter_input(INPUT_GET, 'branch_id', FILTER_VALIDATE_INT);
@@ -80,13 +80,34 @@ case 'get':
             ]);
             break;
 
-    default:
+        case 'delete':
+            $branch_id = filter_input(INPUT_POST, 'branch_id', FILTER_VALIDATE_INT);
+            $service_id = filter_input(INPUT_POST, 'service_id', FILTER_VALIDATE_INT);
+            
+
+            if (!$branch_id) {
+                sendJson(['success' => false, 'message' => 'Invalid branch_id ID'], 400);
+            }
+            if (!$service_id) {
+                sendJson(['success' => false, 'message' => 'Invalid service_id ID'], 400);
+            }
+
+            $result = $services->deleteService($service_id, $branch_id);
+
+            if ($result) {
+                sendJson(['success' => true, 'message' => 'Xóa dịch vụ thành công']);
+            } else {
+                sendJson(['success' => false, 'message' => 'Không thể xóa dịch vụ'], 400);
+            }
+            break;
+
+        default:
             http_response_code(400);
             echo json_encode(['success' => false, 'message' => 'Invalid action']);
             break;
     }
 } catch (PDOException $e) {
     error_log('General Error in Cart_api_endpoint.php: ' . $e->getMessage());
-        http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'An unexpected error occurred']);
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'An unexpected error occurred']);
 }

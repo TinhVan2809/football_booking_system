@@ -115,8 +115,9 @@ app.post("/login", (req, res) => {
     (err, users) => {
       if (err) return res.status(500).json({ error: err });
 
+      // Kiểm tra tên tài khoản có nằm trong table hay không.
       if (users.length === 0)
-        return res.status(400).json({ message: "User not found" });
+        return res.status(400).json({ message: "Không tìm thấy người dùng." });
 
       const user = users[0];
 
@@ -127,7 +128,7 @@ app.post("/login", (req, res) => {
           .status(400)
           .json({
             message:
-              "Invalid password! Check your password of contact Administrator.",
+              "Mật khẩu không chính xác.",
           });
 
       //created token

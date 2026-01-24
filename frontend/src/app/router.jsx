@@ -45,7 +45,7 @@ export const router = createBrowserRouter([
          children: [
          {
            index: true,
-           element: <Home />, //Route mặc định cho trang customer
+           element: <Home />, //Route mặc định cho trang customer (Đang có banner và Field List)
          },
          { path: "detail/:field_id", element: <FieldDetail /> },
          { path: "branchDetail/:branch_id", element: <BranchDetail /> },

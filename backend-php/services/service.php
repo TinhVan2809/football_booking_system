@@ -24,6 +24,7 @@
             }
         }
 
+        //# Đếm số lượng dịch vụ có trong một chi nhánh 
             public function coutServicesBybranch(int $branch_id)  {
                 try{
                     $db = Database::getInstance();
@@ -44,6 +45,26 @@
                     return [];
                 }
             }
+
+        //# Xóa một dịch vụ của một chi nhánh
+        public function deleteService(int $service_id, int $branch_id) {
+            try{
+                $db = Database::getInstance();
+                $connection = $db->getConnection();
+                $sql = "DELETE FROM services WHERE service_id = :service_id AND branch_id = :branch_id";
+                $stmt = $connection->prepare($sql);
+                $stmt->bindValue(':service_id', $service_id, PDO::PARAM_INT);
+                $stmt->bindValue(':branch_id', $branch_id, PDO::PARAM_INT);
+                $stmt->execute();
+            
+            return $stmt->rowCount() > 0;
+            } catch(PDOException $e) {
+                error_log("Error deleting service " . $e->getMessage());
+                return [];
+            }
+        }
+
+
     }
 
 ?>

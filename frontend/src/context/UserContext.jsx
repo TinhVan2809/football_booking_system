@@ -28,9 +28,15 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, setUser, logout }}>
+
+        //? React 19 cho phép sử dụng <Context> trực tiếp như provider thay vì sử dụng <ContextProvider> như trước
+        <UserContext value={{ user, setUser, logout }}>
             {children}
-        </UserContext.Provider>
+        </UserContext>
+
+        // <UserContext.Provider value={{ user, setUser, logout }}>
+        //     {children}
+        // </UserContext.Provider>
     );
 };
 

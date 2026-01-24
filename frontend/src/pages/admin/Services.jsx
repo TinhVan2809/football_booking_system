@@ -7,7 +7,7 @@ function Services() {
   const { services, fetchServicesByBranch, pagination } =
     useContext(ServiceContext);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+//   const [loading, setLoading] = useState(false);
 
   // State cho Form
   const [formData, setFormData] = useState({ service_name: '', price: '', description: '' });
@@ -22,7 +22,7 @@ function Services() {
       limit: 10,
       branch_id: branch_id,
     });
-  }, [branch_id, page]);
+  }, [branch_id, page, fetchServicesByBranch]);
 
   const handlePrevPage = () => {
     if (page > 1) {
