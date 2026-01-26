@@ -3,9 +3,7 @@ import Header from "../../layouts/branch_owner/Header";
 function DashbroadBranch () {
     return (
         <>
-       <div className="px-30">
-         <Header />
-       </div>
+            <h1>Đây là trang Dashbroad của branch owner</h1>
         </>
     );
 }

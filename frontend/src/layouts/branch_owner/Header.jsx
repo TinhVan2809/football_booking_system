@@ -9,7 +9,7 @@ function Header() {
     const {logout} = useContext(UserContext);
   return (
     <>
-      <header className="sticky top-2 mt-8 shadow-2xl z-300 rounded-md flex justify-between items-center w-full bg-white">
+      <header className="sticky top-0 shadow-2xl z-300 rounded-md flex justify-between items-center w-full bg-white">
         <div className="flex justify-center items-center text-center ml-20">
           <h2 className="font-bold text-2xl text-green-800">HASEBOOKING</h2>
         </div>

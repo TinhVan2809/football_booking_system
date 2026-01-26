@@ -21,13 +21,15 @@ import Users from "../pages/admin/Users";
 import AdminLayout from "../layouts/admin/AdminLayout";
 import Branches from "../pages/admin/Branches";
 import Services from "../pages/admin/Services";
+import FieldsBranch from "../pages/admin/FieldsBranch";
 
 // *[BRANCH OWNER]
+import BranchOwnerLayout from "../layouts/branch_owner/BranchOwnerLayout";
 import DashbroadBranch from "../pages/branch_owner/Dashbroad";
 
 //------------------ PAGES/LAYOUTD/COMPOENTS...-----------------------//
 
-const AppLayout = () => (   //eslint-disable-line
+const AppLayout = () => (  //eslint-disable-line
   <UserProvider>
     <Outlet />
   </UserProvider>
@@ -39,17 +41,15 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: (        
-          <CustomerLayout />       
-        ),
-         children: [
-         {
-           index: true,
-           element: <Home />, //Route mặc định cho trang customer (Đang có banner và Field List)
-         },
-         { path: "detail/:field_id", element: <FieldDetail /> },
-         { path: "branchDetail/:branch_id", element: <BranchDetail /> },
-         { path: "search", element: <Search /> },
+        element: <CustomerLayout />,
+        children: [
+          {
+            index: true,
+            element: <Home />, //Route mặc định cho trang customer (Đang có banner và Field List)
+          },
+          { path: "detail/:field_id", element: <FieldDetail /> },
+          { path: "branchDetail/:branch_id", element: <BranchDetail /> },
+          { path: "search", element: <Search /> },
         ],
       },
       {
@@ -70,22 +70,28 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Dashbroad />,  // Route mặc định cho /admin
+            element: <Dashbroad />, // Route mặc định cho /admin
           },
-          { path: "fields", element: <Fields /> },  // route sân bóng
+          { path: "fields", element: <Fields /> }, // route sân bóng
           { path: "users", element: <Users /> }, // route user
-          { path: "branches", element: <Branches /> },  // router chủ sân
+          { path: "branches", element: <Branches /> }, // router chủ sân
           { path: "services/:branch_id", element: <Services /> },
-
+          { path: "fields-branch/:branch_id", element: <FieldsBranch /> },
         ],
       },
       {
         path: "/branch_owner",
         element: (
           <ProtectedRoute role="branch_owner">
-            <DashbroadBranch />
+            <BranchOwnerLayout />
           </ProtectedRoute>
         ),
+        children: [
+          {
+            index: true,
+            element: <DashbroadBranch />,
+          },
+        ],
       },
     ],
   },

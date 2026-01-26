@@ -1,11 +1,12 @@
 <?php
-    require_once '../connection.php';
+require_once '../connection.php';
 
-    class Field
- {
-    public function getFields(int $limit = 25, $offset = 0) {
-        try{
-            $db = Database::getInstance();           
+class Field
+{
+    public function getFields(int $limit = 25, $offset = 0)
+    {
+        try {
+            $db = Database::getInstance();
             $conn = $db->getConnection();
             $stmt = $conn->prepare("SELECT f.field_id, f.field_name, f.thumbnail, b.branch_name, b.address, b.open_time, b.close_time 
                                             FROM fields f  
@@ -16,27 +17,67 @@
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             error_log("Error getting fields " . $e->getMessage());
             return [];
         }
     }
 
-    public function coutFields() {
-            try{
-                $db = Database::getInstance();
-                $connection = $db->getConnection();
+    public function coutFields()
+    {
+        try {
+            $db = Database::getInstance();
+            $connection = $db->getConnection();
 
-                $sql = "SELECT COUNT(*) as total FROM fields";
-                $stmt = $connection->prepare($sql);
-                $stmt->execute();
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $sql = "SELECT COUNT(*) as total FROM fields";
+            $stmt = $connection->prepare($sql);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                return isset($row['total']) ? (int)$row['total'] : 0;
-            } catch(PDOException $e) {
-                error_log("Error couting fields " . $e->getMessage());
-                return 0;
-            }
+            return isset($row['total']) ? (int)$row['total'] : 0;
+        } catch (PDOException $e) {
+            error_log("Error couting fields " . $e->getMessage());
+            return 0;
         }
- }
-?>
+    }
+
+    // //Lấy danh sách sân theo chi nhánh
+    // public function getFieldsByBranch(int $branch_id)
+    // {
+    //     if (empty($branch_id)) {
+    //         return false;
+    //     }
+    //     try {
+    //         $db = Database::getInstance();
+    //         $connection = $db->getConnection();
+
+    //         $sql = "SELECT field_id, filed_name, thumbnail, branch_id FROM fields WHERE branch_id = :branch_id";
+    //         $stmt = $connection->prepare($sql);
+    //         $stmt->bindValue(':branch_id', $branch_id, PDO::PARAM_INT);
+
+    //         $stmt->execute();
+    //         return $stmt->fetchAll(PDO::FETCH_OBJ);
+    //     } catch (PDOException $e) {
+    //         error_log("Error getting filed by branch " . $e->getMessage());
+    //         return [];
+    //     }
+    // }
+
+    // public function countFieldsByBranch(int $branch_id) { 
+    //     try{
+    //         $db = Database::getInstance();
+    //         $connection = $db->getConnection();
+
+    //         $sql = "SELECT COUNT(field_id) FROM fields WHERE branch_id = :branch_id";
+    //         $stmt = $connection->prepare($sql);
+    //         $stmt->bindValue(":branch_id", $branch_id, PDO::PARAM_INT);
+    //         $stmt->execute();
+    //         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //         return isset($row['total']) ? (int)$row['total'] : 0;
+    //     } catch(PDOException $e) {
+    //         error_log("Error counting fields by branch " . $e->getMessage());
+    //         return false;
+    //     }
+    // }
+}

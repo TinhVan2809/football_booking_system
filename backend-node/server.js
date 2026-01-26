@@ -75,7 +75,7 @@ app.post("/register", async (req, res) => {
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10); // thư viện bcrypt hashhing password
 
     db.query(
       "SELECT 1 FROM users WHERE username = ?",
@@ -198,6 +198,10 @@ app.post("/logout", (req, res) => {
     })
     .json({ message: "Logout successful" });
 });
+
+//# Route dùng để tìm kiếm 
+const searchRoutes = require("./routes/search.route");
+app.use("/api/search", searchRoutes);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server running on port ${process.env.PORT}`),

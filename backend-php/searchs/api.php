@@ -1,7 +1,8 @@
 <?php
 
-    require_once 'field.php';
+    require_once './search.php';
 
+    
 
 /**
  * Handle CORS (Cross-Origin Resource Sharing)
@@ -47,6 +48,7 @@ header('Content-Type: application/json');
 
 
     try{
+
         $action = $_REQUEST['action'] ?? null;
         $action = is_string($action) ? trim(filter_var($action, FILTER_SANITIZE_FULL_SPECIAL_CHARS)) : null;
 
@@ -56,40 +58,36 @@ header('Content-Type: application/json');
             exit();
         }
 
-        $fields = new Field();
+        $branches = new Branches();
 
-    switch($action) {
-        case 'get': 
-           
-            $page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options' => ['default' => 1, 'min_range' => 1]]) ?: 1;
-            $limit = filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT, ['options' => ['default' => 25, 'min_range' => 1]]) ?: 25;
-         
-            $offset = ($page - 1) * $limit;
-            $totalItems = $fields->coutFields();
-            $totalPages = ceil($totalItems / $limit);
-            $data = $fields->getFields($limit, $offset);
+        switch($action) {
 
-            sendJson([
-                'success' => true,
-                'data' => $data,
-                'total_items' => $totalItems,
-                'total_pages' => $totalPages,
-                'current_page' => $page,
-                'limit' => $limit
-            ]);
-            break;
+            case 'get':
+                //  $branch_id = filter_input(INPUT_POST, 'bran$branch_id', FILTER_VALIDATE_INT) ?: filter_input(INPUT_GET, 'bran$branch_id', FILTER_VALIDATE_INT);
 
+                //  if(!$branch_id) {
+                //     sendJson([
+                //         'success' => false,
+                //         'message' => "Lỗi khi lấy danh sách branches",
+                //     ], 400);
+                //  }
 
-            default:
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Invalid action']);
-            break;
-   }
+                 $data = $branches->searchBranches();
+
+                 sendJson([
+                    'success' => true,
+                    'message' => 'Lấy danh sách branched thành công',
+                    'data' => $data,
+                 ]);
+                 break;
+        }
+
 
     } catch(PDOException $e) {
         error_log('General Error in Cart_api_endpoint.php: ' . $e->getMessage());
         http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'An unexpected error occurred']);
+        echo json_encode(['success' => false, 'message' => 'An unexpected error occurred']); 
     }
+
 
 ?>

@@ -253,7 +253,7 @@ function FieldDetail() {
                 key={index}
                 className="relative rounded-3xl shadow-2xl h-fit"
               >
-                <div className="absolute top-0 right-0 bg-white/85 p-2 rounded-[50%] mt-4 mr-4 cursor-pointer hover:opacity-70">
+                <div className="absolute z-100 top-0 right-0 bg-white/85 p-2 rounded-[50%] mt-4 mr-4 cursor-pointer hover:opacity-70">
                   <RiMore2Fill />
                 </div>
                 <img

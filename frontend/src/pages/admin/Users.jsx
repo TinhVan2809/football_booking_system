@@ -43,6 +43,9 @@ function Users() {
         }
       };
 
+      if(error) {
+        return <div>Something went wrong!</div>
+      }
 
     return (
         <>

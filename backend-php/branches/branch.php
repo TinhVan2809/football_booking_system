@@ -14,7 +14,7 @@ class Branch
             $connection = $db->getConnection();
             
             // 1. Fetch fields with pagination
-            $sql = "SELECT f.field_id, f.field_name, f.status
+            $sql = "SELECT f.field_id, f.field_name, f.status, f.thumbnail
                     FROM fields f
                     WHERE f.branch_id = :branch_id
                     LIMIT :limit OFFSET :offset";
