@@ -8,6 +8,8 @@ const cookieParser = require("cookie-parser");
 const app = express();
 app.use(express.json());
 
+
+
 // Configure CORS using environment variables (FRONTEND_URL, ADMIN_URL)
 // Fall back to common localhost origins for development
 const allowedOrigins = [
@@ -202,6 +204,12 @@ app.post("/logout", (req, res) => {
 //# Route dùng để tìm kiếm 
 const searchRoutes = require("./routes/search.route");
 app.use("/api/search", searchRoutes);
+
+
+//# Route cho bảng giá 
+const fieldPricingRuleRoutes = require("./routes/fieldPricingRule.route");
+app.use("/api/pricing", fieldPricingRuleRoutes);
+
 
 app.listen(process.env.PORT, () =>
   console.log(`Server running on port ${process.env.PORT}`),

@@ -13,6 +13,7 @@ import FieldDetail from "../pages/customer/FieldDetail";
 import CustomerLayout from "../layouts/customer/CustomerLayout";
 import BranchDetail from "../pages/customer/BranchDetail";
 import Search from "../pages/customer/Search";
+import Booking from "../pages/customer/Booking";
 
 // *[ADMIN]
 import Dashbroad from "../pages/admin/Dashbroad";
@@ -22,6 +23,7 @@ import AdminLayout from "../layouts/admin/AdminLayout";
 import Branches from "../pages/admin/Branches";
 import Services from "../pages/admin/Services";
 import FieldsBranch from "../pages/admin/FieldsBranch";
+
 
 // *[BRANCH OWNER]
 import BranchOwnerLayout from "../layouts/branch_owner/BranchOwnerLayout";
@@ -51,6 +53,7 @@ export const router = createBrowserRouter([
           { path: "detail/:field_id", element: <FieldDetail /> },
           { path: "branchDetail/:branch_id", element: <BranchDetail /> },
           { path: "search", element: <Search /> },
+          { path: "booking/:field_field_type_id", element: <Booking /> },
         ],
       },
       {

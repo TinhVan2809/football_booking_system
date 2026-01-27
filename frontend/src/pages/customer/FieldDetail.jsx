@@ -307,7 +307,7 @@ function FieldDetail() {
                     )}
                   </div>
                   {item.status === "available" ? (
-                    <button className="w-full bg-white text-shadow-neutral-950 rounded-[20px] py-2 font-medium cursor-pointer hover:bg-gray-200 duration-100">
+                    <button className="w-full bg-white text-shadow-neutral-950 rounded-[20px] py-2 font-medium cursor-pointer hover:bg-gray-200 duration-100" onClick={() => navigate(`/booking/${item.field_field_type_id}`)}>
                       Đặt sân ngay
                     </button>
                   ) : item.status === "maintenance" ? (

@@ -16,6 +16,8 @@ class Detail
 
             //? f.status => Đây là trạng thái của một field của một chi nhánh cụ thể, nó bao gồm các loại field_type khác, nếu field này status.maintenance thì các field_type đều maintenance hết
             //? fft.status => trạng thái của field_type của một field_id tại một branch_id “Loại chơi X của sân Y tại chi nhánh Z”
+            //? field_field_types chứa file_id và type_id. Dùng cho khách hàng chọn để booking
+
             $sql = "SELECT
                         f.field_id,
                         f.field_name,
@@ -31,6 +33,7 @@ class Detail
                         ft.thumbnail,
                         ft.description,
 
+                        fft.field_field_type_id, 
                         fft.price_per_hour,
                         fft.max_players,
                         fft.status
