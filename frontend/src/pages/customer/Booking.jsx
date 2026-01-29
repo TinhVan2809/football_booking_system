@@ -49,10 +49,10 @@ function Booking() {
   if (error)
     return <div className="text-center mt-10 text-red-500">Lỗi: {error}</div>;
 
-  // Helper to format time (HH:MM:SS -> HH:MM)
+  // Định dạng giờ (HH:MM:SS -> HH:MM)
   const formatTime = (timeStr) => timeStr.substring(0, 5);
 
-  // Helper to format currency
+  // Định dạng tiền
   const formatCurrency = (price) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",

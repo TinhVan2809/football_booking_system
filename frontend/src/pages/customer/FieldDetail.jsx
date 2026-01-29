@@ -1,15 +1,11 @@
 import { useState, useEffect , Suspense} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-//--------------------------Swiper------------------------------------
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-//--------------------------Swiper-------------------------------------
 
 import {
   RiMapPinFill,
@@ -325,6 +321,7 @@ function FieldDetail() {
           </div>
         )}
 
+        {/* Phân trang */}
         <div className="w-full flex justify-center items-center gap-4 mt-6">
           <button
             onClick={handlePrevPage}

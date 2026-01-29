@@ -1,3 +1,5 @@
+// Call API lấy danh sách bảng giá theo field_field_type_id 
+
 import axios from "axios";
 
 const API_URL = "http://localhost:8081/api";
